@@ -1,6 +1,24 @@
 {
 "version":1,
 "name":"C++ WinRT Samples",
+"build_commands":[
+	{
+		"name":"Compile",
+		"action":"compile",
+		"args":["-fno-builtin", "-fms-extensions", "-fms-compatibility", "-fms-compatibility-version=19.10.25017","-std=c++17", "-fcoroutines-ts", "-fdelayed-template-parsing","-fcxx-exceptions","-fexceptions","-x","c++","-D","UNICODE"],
+		"sys_include_dir":["msvc", "ucrt", "um", "shared", "winrt"],
+		"include_dir":[""],
+		"outputdir":"bin",
+		"command_line":"clang -fno-builtin -fms-extensions -fms-compatibility -fms-compatibility-version=19.10.25017 -std=c++17 -fcoroutines-ts -isystem include/msvc  -isystem include/shared -isystem include/ucrt -isystem include/um -isystem include/winrt -I . -c"
+	},
+	{
+		"name":"Link",
+		"action":"link",
+		"args":["/defaultlib:msvcrt.lib"],
+		"sys_libs_dir":[""],
+		"command_line":"lld-link /defaultlib:msvcrt.lib /libpath:libs"
+	}
+],
 "build_definitions": [
 	{
 		"name":"Compile Syndication",
@@ -12,7 +30,16 @@
 				"include_dir":[""],
 				"inputs":["Syndication/Main.cpp"],
 				"outputdir":"bin",
-				"command":"clang -fno-builtin -fms-extensions -fms-compatibility -fms-compatibility-version=19.10.25017 -std=c++17 -fcoroutines-ts -isystem include/msvc  -isystem include/shared -isystem include/ucrt -isystem include/um -isystem include/winrt -I . -c Syndication/Main.cpp -o Main.obj"
+				"command_line":"clang -fno-builtin -fms-extensions -fms-compatibility -fms-compatibility-version=19.10.25017 -std=c++17 -fcoroutines-ts -isystem include/msvc  -isystem include/shared -isystem include/ucrt -isystem include/um -isystem include/winrt -I . -c Syndication/Main.cpp -o Main.obj"
+			}
+		]
+	},
+	{
+		"name":"Compile All Samples",
+		"build_steps": [
+			{
+				"command_ref":"Compile",
+				"inputs":["Blocks/App.cpp", "CL/Main.cpp", "CustomBuffer/Main.cpp", "Direct2D/App.cpp", "Interop/Main.cpp", "JustCoroutines/Main.cpp", "Ocr/Main.cpp", "Syndication/Main.cpp", "Video/App.cpp", "XamlCalendar/App.cpp", "XamlCode/App.cpp", "XamlMarkup/App.cpp"]
 			}
 		]
 	}
